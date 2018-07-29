@@ -1,4 +1,4 @@
-module Page.Home exposing (initialModel, view)
+module Page.Home exposing (Model, Msg, init, update, view)
 
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
@@ -8,8 +8,8 @@ type alias Model =
     { count : Int }
 
 
-initialModel : Model
-initialModel =
+init : Model
+init =
     { count = 0 }
 
 
@@ -18,14 +18,14 @@ type Msg
     | Decrement
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            { model | count = model.count + 1 }
+            ( { model | count = model.count + 1 }, Cmd.none )
 
         Decrement ->
-            { model | count = model.count - 1 }
+            ( { model | count = model.count - 1 }, Cmd.none )
 
 
 view : Model -> Html Msg

@@ -1,70 +1,185 @@
 module Main exposing (..)
 
-import Html exposing (..)
-import Html.Events exposing (..)
-import Navigation
+import Html exposing (Html, text)
+import Navigation exposing (Location)
 import Page.Battles as Battles
+import Page.Errored as Errored exposing (PageLoadError)
 import Page.Home as Home
-import Route exposing (Route, route)
-import UrlParser as Url
+import Page.NotFound as NotFound
+import Route exposing (Route)
+import Task
+import Views.Page as Page exposing (ActivePage, frame)
+
+
+-- MODEL
+
+
+type Page
+    = Blank
+    | NotFound
+    | Errored PageLoadError
+    | Home Home.Model
+    | Battles
+
+
+type PageState
+    = Loaded Page
+    | TransitioningFrom Page
 
 
 type alias Model =
-    { page : Maybe Route }
+    { pageState : PageState }
 
 
-init : Navigation.Location -> ( Model, Cmd Msg )
+init : Location -> ( Model, Cmd Msg )
 init location =
-    ( Model (Just Route.Home), Cmd.none )
+    setRoute (Route.fromLocation location)
+        { pageState = Loaded initialPage }
+
+
+initialPage : Page
+initialPage =
+    Blank
+
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Links" ]
-        , ul [] (List.map viewLink [ "/", "/battles" ])
-        , viewPage model.page
-        ]
+    case model.pageState of
+        Loaded page ->
+            viewPage False page
+
+        TransitioningFrom page ->
+            viewPage True page
 
 
-viewPage : Maybe Route -> Html Msg
-viewPage page =
+viewPage : Bool -> Page -> Html Msg
+viewPage isLoading page =
     case page of
-        Just Route.Home ->
-            Home.view Home.initialModel
+        Blank ->
+            Html.text ""
+                |> frame Page.Other isLoading
 
-        Just Route.Battles ->
+        NotFound ->
+            NotFound.view
+                |> frame Page.Other isLoading
+
+        Errored subModel ->
+            Errored.view subModel
+                |> frame Page.Other isLoading
+
+        Home subModel ->
+            Home.view subModel
+                |> frame Page.Home isLoading
+                |> Html.map HomeMsg
+
+        Battles ->
             Battles.view
 
-        Nothing ->
-            h1 [] [ text "not found" ]
 
 
-viewLink : String -> Html Msg
-viewLink url =
-    li [] [ button [ onClick (NewUrl url) ] [ text url ] ]
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch [ pageSubscriptions (getPage model.pageState) ]
+
+
+pageSubscriptions : Page -> Sub Msg
+pageSubscriptions page =
+    case page of
+        Blank ->
+            Sub.none
+
+        NotFound ->
+            Sub.none
+
+        Errored _ ->
+            Sub.none
+
+        Home _ ->
+            Sub.none
+
+        Battles ->
+            Sub.none
+
+
+
+-- UPDATE
 
 
 type Msg
-    = NewUrl String
-    | UrlChange Navigation.Location
+    = SetRoute (Maybe Route)
+    | HomeMsg Home.Msg
+
+
+setRoute : Maybe Route -> Model -> ( Model, Cmd Msg )
+setRoute maybeRoute model =
+    let
+        transition toMsg task =
+            ( { model | pageState = TransitioningFrom (getPage model.pageState) }
+            , Task.attempt toMsg task
+            )
+    in
+    case maybeRoute of
+        Nothing ->
+            ( { model | pageState = Loaded NotFound }, Cmd.none )
+
+        Just Route.Root ->
+            ( model, Route.modifyUrl Route.Home )
+
+        Just Route.Home ->
+            ( { model | pageState = Loaded (Home Home.init) }, Cmd.none )
+
+        Just Route.Battles ->
+            ( { model | pageState = Loaded Battles }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        NewUrl url ->
-            ( model, Navigation.newUrl url )
+    updatePage (getPage model.pageState) msg model
 
-        UrlChange location ->
-            ( { model | page = Url.parsePath route location }, Cmd.none )
+
+getPage : PageState -> Page
+getPage pageState =
+    case pageState of
+        Loaded page ->
+            page
+
+        TransitioningFrom page ->
+            page
+
+
+updatePage : Page -> Msg -> Model -> ( Model, Cmd Msg )
+updatePage page msg model =
+    let
+        toPage toModel toMsg subUpdate subMsg subModel =
+            let
+                ( newModel, newCmd ) =
+                    subUpdate subMsg subModel
+            in
+            ( { model | pageState = Loaded (toModel newModel) }, Cmd.map toMsg newCmd )
+    in
+    case ( msg, page ) of
+        ( SetRoute route, _ ) ->
+            setRoute route model
+
+        ( HomeMsg subMsg, Home subModel ) ->
+            toPage Home HomeMsg Home.update subMsg subModel
+
+        ( HomeMsg subMsg, _ ) ->
+            ( model, Cmd.none )
 
 
 main : Program Never Model Msg
 main =
-    Navigation.program UrlChange
+    Navigation.program (Route.fromLocation >> SetRoute)
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
         }
