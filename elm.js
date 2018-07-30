@@ -14063,6 +14063,121 @@ var _user$project$Route$fromLocation = function (location) {
 	return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$Route$Root) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$Route$route, location);
 };
 
+var _user$project$Views_Page$viewMenu = A2(
+	_elm_lang$html$Html$aside,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('menu'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$ul,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('menu-list'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$li,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _user$project$Route$href(_user$project$Route$Home),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Home'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$li,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _user$project$Route$href(_user$project$Route$Battles),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Battles'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Views_Page$viewContainer = F2(
+	function (menu, body) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('container'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('columns'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('column is-3'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: menu,
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('column is-9'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: body,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$Views_Page$isActive = F2(
 	function (page, route) {
 		var _p0 = {ctor: '_Tuple2', _0: page, _1: route};
@@ -14072,42 +14187,20 @@ var _user$project$Views_Page$isActive = F2(
 			return false;
 		}
 	});
-var _user$project$Views_Page$navBarLink = F3(
-	function (page, route, linkContent) {
-		return A2(
-			_elm_lang$html$Html$a,
+var _user$project$Views_Page$viewNavbar = A2(
+	_elm_lang$html$Html$nav,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('navbar is-primary'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$classList(
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'navbar-item', _1: true},
-						_1: {
-							ctor: '::',
-							_0: {
-								ctor: '_Tuple2',
-								_0: 'is-active',
-								_1: A2(_user$project$Views_Page$isActive, page, route)
-							},
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Route$href(route),
-					_1: {ctor: '[]'}
-				}
-			},
-			linkContent);
-	});
-var _user$project$Views_Page$viewNavbar = F2(
-	function (page, isLoading) {
-		var linkTo = _user$project$Views_Page$navBarLink(page);
-		return A2(
-			_elm_lang$html$Html$nav,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('navbar is-primary'),
+				_0: _elm_lang$html$Html_Attributes$class('container'),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -14134,119 +14227,32 @@ var _user$project$Views_Page$viewNavbar = F2(
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Elm World Cup'),
+								_0: _elm_lang$html$Html$text('Tactics'),
 								_1: {ctor: '[]'}
 							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$a,
-								{
-									ctor: '::',
-									_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-expanded', 'false'),
-									_1: {
-										ctor: '::',
-										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-label', 'menu'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('navbar-burger'),
-											_1: {
-												ctor: '::',
-												_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'button'),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$span,
-										{
-											ctor: '::',
-											_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
-											_1: {ctor: '[]'}
-										},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$span,
-											{
-												ctor: '::',
-												_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
-												_1: {ctor: '[]'}
-											},
-											{ctor: '[]'}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$span,
-												{
-													ctor: '::',
-													_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-hidden', 'true'),
-													_1: {ctor: '[]'}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('navbar-menu'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('navbar-start'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										linkTo,
-										_user$project$Route$Home,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Todays Matches'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			});
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
 	});
-var _user$project$Views_Page$frame = F3(
-	function (page, isLoading, content) {
+var _user$project$Views_Page$frame = F2(
+	function (page, content) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A2(_user$project$Views_Page$viewNavbar, page, isLoading),
+				_0: _user$project$Views_Page$viewNavbar,
 				_1: {
 					ctor: '::',
-					_0: content,
+					_0: A2(_user$project$Views_Page$viewContainer, _user$project$Views_Page$viewMenu, content),
 					_1: {ctor: '[]'}
 				}
 			});
 	});
 var _user$project$Views_Page$Other = {ctor: 'Other'};
+var _user$project$Views_Page$Battles = {ctor: 'Battles'};
 var _user$project$Views_Page$Home = {ctor: 'Home'};
 
 var _user$project$Main$getPage = function (pageState) {
@@ -14369,43 +14375,39 @@ var _user$project$Main$init = function (location) {
 var _user$project$Main$HomeMsg = function (a) {
 	return {ctor: 'HomeMsg', _0: a};
 };
-var _user$project$Main$viewPage = F2(
-	function (isLoading, page) {
-		var _p3 = page;
-		switch (_p3.ctor) {
-			case 'Blank':
-				return A3(
+var _user$project$Main$viewPage = function (page) {
+	var _p3 = page;
+	switch (_p3.ctor) {
+		case 'Blank':
+			return A2(
+				_user$project$Views_Page$frame,
+				_user$project$Views_Page$Other,
+				_elm_lang$html$Html$text(''));
+		case 'NotFound':
+			return A2(_user$project$Views_Page$frame, _user$project$Views_Page$Other, _user$project$Page_NotFound$view);
+		case 'Errored':
+			return A2(
+				_user$project$Views_Page$frame,
+				_user$project$Views_Page$Other,
+				_user$project$Page_Errored$view(_p3._0));
+		case 'Home':
+			return A2(
+				_elm_lang$html$Html$map,
+				_user$project$Main$HomeMsg,
+				A2(
 					_user$project$Views_Page$frame,
-					_user$project$Views_Page$Other,
-					isLoading,
-					_elm_lang$html$Html$text(''));
-			case 'NotFound':
-				return A3(_user$project$Views_Page$frame, _user$project$Views_Page$Other, isLoading, _user$project$Page_NotFound$view);
-			case 'Errored':
-				return A3(
-					_user$project$Views_Page$frame,
-					_user$project$Views_Page$Other,
-					isLoading,
-					_user$project$Page_Errored$view(_p3._0));
-			case 'Home':
-				return A2(
-					_elm_lang$html$Html$map,
-					_user$project$Main$HomeMsg,
-					A3(
-						_user$project$Views_Page$frame,
-						_user$project$Views_Page$Home,
-						isLoading,
-						_user$project$Page_Home$view(_p3._0)));
-			default:
-				return _user$project$Page_Battles$view;
-		}
-	});
+					_user$project$Views_Page$Home,
+					_user$project$Page_Home$view(_p3._0)));
+		default:
+			return A2(_user$project$Views_Page$frame, _user$project$Views_Page$Battles, _user$project$Page_Battles$view);
+	}
+};
 var _user$project$Main$view = function (model) {
 	var _p4 = model.pageState;
 	if (_p4.ctor === 'Loaded') {
-		return A2(_user$project$Main$viewPage, false, _p4._0);
+		return _user$project$Main$viewPage(_p4._0);
 	} else {
-		return A2(_user$project$Main$viewPage, true, _p4._0);
+		return _user$project$Main$viewPage(_p4._0);
 	}
 };
 var _user$project$Main$updatePage = F3(
@@ -14464,7 +14466,7 @@ var _user$project$Main$main = A2(
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Route.Route":{"args":[],"tags":{"Home":[],"Root":[],"Battles":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Main.Msg":{"args":[],"tags":{"SetRoute":["Maybe.Maybe Route.Route"],"HomeMsg":["Page.Home.Msg"]}},"Page.Home.Msg":{"args":[],"tags":{"Decrement":[],"Increment":[]}}},"aliases":{},"message":"Main.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"message":"Main.Msg","aliases":{},"unions":{"Main.Msg":{"tags":{"SetRoute":["Maybe.Maybe Route.Route"],"HomeMsg":["Page.Home.Msg"]},"args":[]},"Page.Home.Msg":{"tags":{"Increment":[],"Decrement":[]},"args":[]},"Maybe.Maybe":{"tags":{"Nothing":[],"Just":["a"]},"args":["a"]},"Route.Route":{"tags":{"Battles":[],"Home":[],"Root":[]},"args":[]}}},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

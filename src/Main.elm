@@ -46,38 +46,44 @@ initialPage =
 -- VIEW
 
 
+{-|
+
+    can put isLoading back in here for when i want to re-implement the loader stuff
+
+-}
 view : Model -> Html Msg
 view model =
     case model.pageState of
         Loaded page ->
-            viewPage False page
+            viewPage page
 
         TransitioningFrom page ->
-            viewPage True page
+            viewPage page
 
 
-viewPage : Bool -> Page -> Html Msg
-viewPage isLoading page =
+viewPage : Page -> Html Msg
+viewPage page =
     case page of
         Blank ->
             Html.text ""
-                |> frame Page.Other isLoading
+                |> frame Page.Other
 
         NotFound ->
             NotFound.view
-                |> frame Page.Other isLoading
+                |> frame Page.Other
 
         Errored subModel ->
             Errored.view subModel
-                |> frame Page.Other isLoading
+                |> frame Page.Other
 
         Home subModel ->
             Home.view subModel
-                |> frame Page.Home isLoading
+                |> frame Page.Home
                 |> Html.map HomeMsg
 
         Battles ->
             Battles.view
+                |> frame Page.Battles
 
 
 

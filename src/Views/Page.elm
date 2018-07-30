@@ -21,6 +21,7 @@ the spa example for styling the active link
 -}
 type ActivePage
     = Home
+    | Battles
     | Other
 
 
@@ -40,50 +41,23 @@ type ActivePage
 -}
 
 
-frame : ActivePage -> Bool -> Html msg -> Html msg
-frame page isLoading content =
+frame : ActivePage -> Html msg -> Html msg
+frame page content =
     div []
-        [ viewNavbar page isLoading
-        , content
+        [ viewNavbar
+        , viewContainer viewMenu content
         ]
 
 
-viewNavbar : ActivePage -> Bool -> Html msg
-viewNavbar page isLoading =
-    let
-        linkTo =
-            navBarLink page
-    in
+viewNavbar : Html msg
+viewNavbar =
     nav [ class "navbar is-primary" ]
-        [ div [ class "navbar-brand", Route.href Route.Home ]
-            [ a [ class "navbar-item" ] [ text "Elm World Cup" ]
-            , a [ attribute "aria-expanded" "false", attribute "aria-label" "menu", class "navbar-burger", attribute "role" "button" ]
-                [ span [ attribute "aria-hidden" "true" ]
-                    []
-                , span [ attribute "aria-hidden" "true" ]
-                    []
-                , span [ attribute "aria-hidden" "true" ]
-                    []
-                ]
-            ]
-        , div [ class "navbar-menu" ]
-            [ div [ class "navbar-start" ]
-                [ linkTo Route.Home [ text "Todays Matches" ]
+        [ div [ class "container" ]
+            [ div [ class "navbar-brand", Route.href Route.Home ]
+                [ a [ class "navbar-item" ] [ text "Tactics" ]
                 ]
             ]
         ]
-
-
-navBarLink : ActivePage -> Route -> List (Html msg) -> Html msg
-navBarLink page route linkContent =
-    a
-        [ classList
-            [ ( "navbar-item", True )
-            , ( "is-active", isActive page route )
-            ]
-        , Route.href route
-        ]
-        linkContent
 
 
 isActive : ActivePage -> Route -> Bool
@@ -94,3 +68,31 @@ isActive page route =
 
         _ ->
             False
+
+
+viewContainer : Html msg -> Html msg -> Html msg
+viewContainer menu body =
+    div [ class "container" ]
+        [ div [ class "columns" ]
+            [ div [ class "column is-3" ]
+                [ menu ]
+            , div [ class "column is-9" ]
+                [ body ]
+            ]
+        ]
+
+
+viewMenu : Html msg
+viewMenu =
+    aside [ class "menu" ]
+        [ ul [ class "menu-list" ]
+            [ li []
+                [ a [ Route.href Route.Home ]
+                    [ text "Home" ]
+                ]
+            , li []
+                [ a [ Route.href Route.Battles ]
+                    [ text "Battles" ]
+                ]
+            ]
+        ]
