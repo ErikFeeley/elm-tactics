@@ -47,12 +47,13 @@ frame page content =
     div []
         [ viewNavbar
         , viewContainer viewMenu content
+        , viewMobileMenu
         ]
 
 
 viewNavbar : Html msg
 viewNavbar =
-    nav [ class "navbar is-primary" ]
+    nav [ class "navbar" ]
         [ div [ class "container" ]
             [ div [ class "navbar-brand", Route.href Route.Home ]
                 [ a [ class "navbar-item" ] [ text "Tactics" ]
@@ -85,7 +86,7 @@ viewContainer menu body =
 
 viewMenu : Html msg
 viewMenu =
-    aside [ class "menu" ]
+    aside [ class "menu is-hidden-mobile" ]
         [ ul [ class "menu-list" ]
             [ li []
                 [ a [ Route.href Route.Home ]
@@ -98,6 +99,22 @@ viewMenu =
             , li []
                 [ a [ Route.href Route.User ]
                     [ text "User" ]
+                ]
+            ]
+        ]
+
+
+viewMobileMenu : Html msg
+viewMobileMenu =
+    nav [ class "navbar is-fixed-bottom is-hidden-tablet" ]
+        [ div [ class "navbar-menu is-active" ]
+            [ div [ class "navbar-start" ]
+                [ div [ class "navbar-item is-flex" ]
+                    [ a [ class "navbar-link", Route.href Route.Home ]
+                        [ text "H" ]
+                    , a [ class "navbar-link", Route.href Route.Battles ]
+                        [ text "B" ]
+                    ]
                 ]
             ]
         ]

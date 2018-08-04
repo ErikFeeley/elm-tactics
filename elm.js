@@ -14121,11 +14121,90 @@ var _user$project$Route$fromLocation = function (location) {
 	return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$Route$Root) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$Route$route, location);
 };
 
+var _user$project$Views_Page$viewMobileMenu = A2(
+	_elm_lang$html$Html$nav,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('navbar is-fixed-bottom is-hidden-tablet'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('navbar-menu is-active'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('navbar-start'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('navbar-item is-flex'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$a,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$Route$href(_user$project$Route$Home),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('H'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('navbar-link'),
+											_1: {
+												ctor: '::',
+												_0: _user$project$Route$href(_user$project$Route$Battles),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('B'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
 var _user$project$Views_Page$viewMenu = A2(
 	_elm_lang$html$Html$aside,
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$class('menu'),
+		_0: _elm_lang$html$Html_Attributes$class('menu is-hidden-mobile'),
 		_1: {ctor: '[]'}
 	},
 	{
@@ -14271,7 +14350,7 @@ var _user$project$Views_Page$viewNavbar = A2(
 	_elm_lang$html$Html$nav,
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$class('navbar is-primary'),
+		_0: _elm_lang$html$Html_Attributes$class('navbar'),
 		_1: {ctor: '[]'}
 	},
 	{
@@ -14327,7 +14406,11 @@ var _user$project$Views_Page$frame = F2(
 				_1: {
 					ctor: '::',
 					_0: A2(_user$project$Views_Page$viewContainer, _user$project$Views_Page$viewMenu, content),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _user$project$Views_Page$viewMobileMenu,
+						_1: {ctor: '[]'}
+					}
 				}
 			});
 	});
