@@ -6,6 +6,7 @@ import Page.Battles as Battles
 import Page.Errored as Errored exposing (PageLoadError)
 import Page.Home as Home
 import Page.NotFound as NotFound
+import Page.User as User
 import Route exposing (Route)
 import Task
 import Views.Page as Page exposing (ActivePage, frame)
@@ -20,6 +21,7 @@ type Page
     | Errored PageLoadError
     | Home Home.Model
     | Battles
+    | User User.Model
 
 
 type PageState
@@ -85,6 +87,10 @@ viewPage page =
             Battles.view
                 |> frame Page.Battles
 
+        User subModel ->
+            User.view subModel
+                |> frame Page.User
+
 
 
 -- SUBSCRIPTIONS
@@ -113,6 +119,9 @@ pageSubscriptions page =
         Battles ->
             Sub.none
 
+        User _ ->
+            Sub.none
+
 
 
 -- UPDATE
@@ -121,6 +130,7 @@ pageSubscriptions page =
 type Msg
     = SetRoute (Maybe Route)
     | HomeMsg Home.Msg
+    | UserResultLoaded (Result PageLoadError User.Model)
 
 
 setRoute : Maybe Route -> Model -> ( Model, Cmd Msg )
@@ -143,6 +153,9 @@ setRoute maybeRoute model =
 
         Just Route.Battles ->
             ( { model | pageState = Loaded Battles }, Cmd.none )
+
+        Just Route.User ->
+            transition UserResultLoaded User.init
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -179,6 +192,12 @@ updatePage page msg model =
 
         ( HomeMsg subMsg, _ ) ->
             ( model, Cmd.none )
+
+        ( UserResultLoaded (Ok subModel), _ ) ->
+            ( { model | pageState = Loaded (User subModel) }, Cmd.none )
+
+        ( UserResultLoaded (Err error), _ ) ->
+            ( { model | pageState = Loaded (Errored error) }, Cmd.none )
 
 
 main : Program Never Model Msg

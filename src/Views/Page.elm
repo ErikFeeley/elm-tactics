@@ -22,6 +22,7 @@ the spa example for styling the active link
 type ActivePage
     = Home
     | Battles
+    | User
     | Other
 
 
@@ -93,6 +94,10 @@ viewMenu =
             , li []
                 [ a [ Route.href Route.Battles ]
                     [ text "Battles" ]
+                ]
+            , li []
+                [ a [ Route.href Route.User ]
+                    [ text "User" ]
                 ]
             ]
         ]
